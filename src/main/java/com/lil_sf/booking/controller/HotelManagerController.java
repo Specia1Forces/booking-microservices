@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Controller
+import java.util.List;@Controller
 @RequestMapping("/api/manager")
 public class HotelManagerController {
 
@@ -30,13 +28,13 @@ public class HotelManagerController {
         return hotelsService.findAll(hotelManagerId);
     }
 
-    @GetMapping("/hotels/hotel/{id}")//исправить mapping
+    @GetMapping("/hotels/{id}")//исправить mapping
     public Hotel getHotelById(@PathVariable int id) {
         int hotelManagerId = 0;
         return hotelsService.findOne(hotelManagerId, id);
     }
 
-    @DeleteMapping("/hotels/delete/{id}")
+    @DeleteMapping("/hotels/{id}")
     public void deleteHotel(@PathVariable int id) {
         int hotelManagerId = 0;
         hotelsService.deleteById(hotelManagerId, id);
@@ -48,7 +46,7 @@ public class HotelManagerController {
         return hotelsService.save(hotelManagerId, hotel, address);
     }
 
-    @PutMapping("/hotels/edit/{id}")
+    @PutMapping("/hotels/{id}")
     public Hotel editHotel(@PathVariable int id, Hotel updatedHotel, Address updatedAddress) { //может ничего не надо возвращать
         int hotelManagerId = 0;
         return hotelsService.update(hotelManagerId, id, updatedHotel, updatedAddress);
@@ -67,19 +65,19 @@ public class HotelManagerController {
     }
 
 
-    @DeleteMapping("/hotels/{hotelId}/delete/{roomId}")
+    @DeleteMapping("/hotels/{hotelId}/rooms/{roomId}")
     public void deleteRoom(@PathVariable int hotelId, @PathVariable int roomId) {
         int hotelManagerId = 0;
         roomService.deleteRoom(hotelManagerId, hotelId, roomId);
     }
 
-    @PostMapping("/hotels/{hotelId}/room-add")
+    @PostMapping("/hotels/{hotelId}/rooms/add")
     public Room addRoom(@PathVariable int hotelId, @RequestBody Room room) {
         int hotelManagerId = 0;
         return roomService.save(hotelManagerId, hotelId, room);
     }
 
-    @PutMapping("/hotels/{hotelId}/room-edit/{id}")
+    @PutMapping("/hotels/{hotelId}/rooms/{id}")
     public Room editRoom(@PathVariable int hotelId, @PathVariable int id, Room updateRoom) { //может ничего не надо возвращать
         int hotelManagerId = 0;
         return roomService.update(hotelManagerId, hotelId, id, updateRoom);
@@ -94,6 +92,8 @@ public class HotelManagerController {
 
      */
 }
+
+
 
 
   /*
