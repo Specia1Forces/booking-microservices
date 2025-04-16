@@ -21,7 +21,7 @@ public interface BookingRepository  extends JpaRepository<Booking, Integer> {
 
      */
 
-    Optional<Booking> findBookingByClient_Id(Integer clientId);
+    List<Booking>  findBookingByClient_Id(Integer clientId);
 
     @Query("SELECT b FROM Hotel h" +
             " JOIN h.roomList r" +

@@ -1,19 +1,102 @@
 package com.lil_sf.booking.controller;
 
+import com.lil_sf.booking.models.Address;
 import com.lil_sf.booking.models.Hotel;
+import com.lil_sf.booking.models.Room;
 import com.lil_sf.booking.service.HotelsService;
+import com.lil_sf.booking.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/api/manager")
 public class HotelManagerController {
 
+    private final HotelsService hotelsService;
+    private final RoomService roomService;
+
+    @Autowired
+    public HotelManagerController(HotelsService hotelsService, RoomService roomService) {
+        this.hotelsService = hotelsService;
+        this.roomService = roomService;
+    }
+
+    @GetMapping("/hotels")
+    public List<Hotel> listHotels() {
+        int hotelManagerId = 0;
+        return hotelsService.findAll(hotelManagerId);
+    }
+
+    @GetMapping("/hotels/hotel/{id}")//исправить mapping
+    public Hotel getHotelById(@PathVariable int id) {
+        int hotelManagerId = 0;
+        return hotelsService.findOne(hotelManagerId, id);
+    }
+
+    @DeleteMapping("/hotels/delete/{id}")
+    public void deleteHotel(@PathVariable int id) {
+        int hotelManagerId = 0;
+        hotelsService.deleteById(hotelManagerId, id);
+    }
+
+    @PostMapping("/hotels/add")
+    public Hotel addHotel(@RequestBody Hotel hotel, @RequestBody Address address) {
+        int hotelManagerId = 0;
+        return hotelsService.save(hotelManagerId, hotel, address);
+    }
+
+    @PutMapping("/hotels/edit/{id}")
+    public Hotel editHotel(@PathVariable int id, Hotel updatedHotel, Address updatedAddress) { //может ничего не надо возвращать
+        int hotelManagerId = 0;
+        return hotelsService.update(hotelManagerId, id, updatedHotel, updatedAddress);
+    }
+
+    @GetMapping("/hotels/{hotelId}/rooms")
+    public List<Room> listRooms(@PathVariable int hotelId) {
+        int hotelManagerId = 0;
+        return roomService.findAll(hotelManagerId, hotelId);
+    }
+
+    @GetMapping("/hotels/{hotelId}/rooms/{roomId}") // Исправлено: убрано "hotel" из пути
+    public Room getRoomById(@PathVariable int hotelId, @PathVariable int roomId) {
+        int hotelManagerId = 0; // Если hotelManagerId нужно получать из другого источника, измените это
+        return roomService.findOne(hotelManagerId, hotelId, roomId);
+    }
+
+
+    @DeleteMapping("/hotels/{hotelId}/delete/{roomId}")
+    public void deleteRoom(@PathVariable int hotelId, @PathVariable int roomId) {
+        int hotelManagerId = 0;
+        roomService.deleteRoom(hotelManagerId, hotelId, roomId);
+    }
+
+    @PostMapping("/hotels/{hotelId}/room-add")
+    public Room addRoom(@PathVariable int hotelId, @RequestBody Room room) {
+        int hotelManagerId = 0;
+        return roomService.save(hotelManagerId, hotelId, room);
+    }
+
+    @PutMapping("/hotels/{hotelId}/room-edit/{id}")
+    public Room editRoom(@PathVariable int hotelId, @PathVariable int id, Room updateRoom) { //может ничего не надо возвращать
+        int hotelManagerId = 0;
+        return roomService.update(hotelManagerId, hotelId, id, updateRoom);
+    }
+
     /*
+    @GetMapping("/hotels/{hotelId}/rooms/{roomId}")
+    public List<Hotel> findAvailableHotels() {
+        int hotelManagerId = 0;
+        return hotelSearchService.findAvailableHotels(hotelManagerId);
+    }
+
+     */
+}
+
+
+  /*
     private final HotelsService hotelsService;
 
     @Autowired
@@ -73,4 +156,3 @@ public class HotelManagerController {
     }
 
      */
-}

@@ -23,5 +23,5 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             " LEFT JOIN r.unavailabilityList u WITH (:curStartDate  BETWEEN u.startDate AND u.endDate) OR (:curEndDate  BETWEEN u.startDate AND u.endDate)" +
             " WHERE b.id IS NULL AND u.id IS NULL AND r.hotel.id = :hotelId "
     )
-    List<Hotel> findAvailableRoom(@Param("curStartDate") Date startDate, @Param("curEndDate") Date endDate, @Param("hotelId") Integer hotelId);
+    List<Room> findAvailableRoom(@Param("curStartDate") Date startDate, @Param("curEndDate") Date endDate, @Param("hotelId") Integer hotelId);
 }

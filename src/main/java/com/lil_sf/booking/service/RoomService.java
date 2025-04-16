@@ -81,7 +81,7 @@ public class RoomService {
     }
 
     @Transactional
-    public void update(int hotelManagerId, int hotelId, int id, Room updatedRoom) {
+    public Room update(int hotelManagerId, int hotelId, int id, Room updatedRoom) {
         Optional<Hotel> foundHotel = hotelRepository.findHotelByIdAndHotelManager_Id(hotelId, hotelManagerId);
         if (foundHotel.isEmpty()) {
             throw new RuntimeException("The hotel does not belong to the manager");
@@ -89,13 +89,10 @@ public class RoomService {
         //  проверка на владельца
         updatedRoom.setId(id);
         updatedRoom.setHotel(updatedRoom.getHotel());
-        roomRepository.save(updatedRoom);
+        return roomRepository.save(updatedRoom);
         // исправить нужно сперва найти старое значение
 
     }
-
-
-
 
 
     public int getCurrentManagerId() {
@@ -122,8 +119,6 @@ public class RoomService {
 
         return foundUsers(foundUsers);
     }
-
-
 
 
 }
