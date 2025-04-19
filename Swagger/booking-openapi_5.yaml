@@ -1,0 +1,199 @@
+openapi: "3.1.0"
+info:
+  title: "booking API"
+  description: "booking API"
+  version: "1.0.0"
+servers:
+  - url: "https://booking"
+paths:
+  /api/client/{clientId}/reservations:
+    get:
+      summary: "GET api/client/{clientId}/reservations"
+      operationId: "findReservations"
+      parameters:
+        - name: "clientId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Booking"
+components:
+  schemas:
+    BigDecimal:
+      type: "object"
+      properties: { }
+    Role:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        roleType:
+          type: "string"
+          enum:
+            - "CLIENT"
+            - "HOTEL_MANAGER"
+    Unavailability:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        startDate:
+          type: "string"
+          format: "date-time"
+        endDate:
+          type: "string"
+          format: "date-time"
+        room:
+          $ref: "#/components/schemas/Room"
+    Room:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        name:
+          type: "string"
+        description:
+          type: "string"
+        currentPrice:
+          $ref: "#/components/schemas/BigDecimal"
+        roomType:
+          type: "string"
+          enum:
+            - "SINGLE"
+            - "DOUBLE"
+        hotel:
+          $ref: "#/components/schemas/Hotel"
+        bookingList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Booking"
+        unavailabilityList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Unavailability"
+    Address:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        line:
+          type: "string"
+        city:
+          type: "string"
+        country:
+          type: "string"
+        hotel:
+          $ref: "#/components/schemas/Hotel"
+    Hotel:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        name:
+          type: "string"
+        description:
+          type: "string"
+        categoryType:
+          type: "string"
+          enum:
+            - "HOTEL"
+        hotelManager:
+          $ref: "#/components/schemas/HotelManager"
+        roomList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Room"
+        address:
+          $ref: "#/components/schemas/Address"
+    HotelManager:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        user:
+          $ref: "#/components/schemas/User"
+        hotelList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Hotel"
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        username:
+          type: "string"
+        password:
+          type: "string"
+        createdDate:
+          type: "string"
+          format: "date-time"
+        role:
+          $ref: "#/components/schemas/Role"
+        name:
+          type: "string"
+        lastName:
+          type: "string"
+        hotelManager:
+          $ref: "#/components/schemas/HotelManager"
+        client:
+          $ref: "#/components/schemas/Client"
+    Client:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        user:
+          $ref: "#/components/schemas/User"
+        bookingList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Booking"
+    Booking:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        startDate:
+          type: "string"
+          format: "date-time"
+        endDate:
+          type: "string"
+          format: "date-time"
+        created:
+          type: "string"
+          format: "date-time"
+        updated:
+          type: "string"
+          format: "date-time"
+        discountPercent:
+          $ref: "#/components/schemas/BigDecimal"
+        bookingStatus:
+          type: "string"
+          enum:
+            - "CONFIRMED"
+            - "CANCELLED"
+        totalPrice:
+          $ref: "#/components/schemas/BigDecimal"
+        client:
+          $ref: "#/components/schemas/Client"
+        room:
+          $ref: "#/components/schemas/Room"
