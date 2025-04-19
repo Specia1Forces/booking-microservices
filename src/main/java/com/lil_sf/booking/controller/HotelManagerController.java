@@ -47,7 +47,7 @@ public class HotelManagerController {
     }
 
     @PutMapping("/hotels/{id}")
-    public Hotel editHotel(@PathVariable int id, Hotel updatedHotel, Address updatedAddress) { //может ничего не надо возвращать
+    public Hotel editHotel(@PathVariable int id, @RequestBody Hotel updatedHotel, @RequestBody Address updatedAddress) { //может ничего не надо возвращать
         int hotelManagerId = 0;
         return hotelsService.update(hotelManagerId, id, updatedHotel, updatedAddress);
     }
