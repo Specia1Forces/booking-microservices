@@ -1,0 +1,112 @@
+openapi: "3.1.0"
+info:
+  title: "Bookings_microservices API"
+  description: "Bookings_microservices API"
+  version: "1.0.0"
+servers:
+  - url: "https://Bookings_microservices"
+paths:
+  /api/search/hotels/available:
+    get:
+      summary: "GET api/search/hotels/available"
+      operationId: "findAvailableHotels"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchHotelDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/HotelForClientDto"
+  /api/search/hotels/{hotelId}/information:
+    get:
+      summary: "GET api/search/hotels/{hotelId}/information"
+      operationId: "getInformationHotels"
+      parameters:
+        - name: "hotelId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRoomDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/RoomForClientDto"
+components:
+  schemas:
+    SearchHotelDto:
+      type: "object"
+      properties:
+        city:
+          type: "string"
+        startDate:
+          type: "string"
+          format: "date-time"
+        endDate:
+          type: "string"
+          format: "date-time"
+    HotelForClientDto:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        name:
+          type: "string"
+        description:
+          type: "string"
+        categoryType:
+          type: "string"
+          enum:
+            - "HOTEL"
+        lineAddress:
+          type: "string"
+        city:
+          type: "string"
+        country:
+          type: "string"
+    SearchRoomDto:
+      type: "object"
+      properties:
+        startDate:
+          type: "string"
+          format: "date-time"
+        endDate:
+          type: "string"
+          format: "date-time"
+    BigDecimal:
+      type: "object"
+      properties: { }
+    RoomForClientDto:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        description:
+          type: "string"
+        currentPrice:
+          $ref: "#/components/schemas/BigDecimal"
+        roomType:
+          type: "string"
+          enum:
+            - "SINGLE"
+            - "DOUBLE"
