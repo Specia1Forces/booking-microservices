@@ -114,13 +114,6 @@ public class HotelManagerController {
     public ResponseEntity<RoomForManagerDto> getRoomById(@PathVariable int hotelId, @PathVariable int roomId) {
         int hotelManagerId = 0;
         return new ResponseEntity<>(mapRoomToRoomForManagerDto(roomService.findOne(hotelManagerId, hotelId, roomId)), HttpStatus.OK);
-        /*
-        try {
-            return new ResponseEntity<>(mapRoomToRoomForManagerDto(roomService.findOne(hotelManagerId, hotelId, roomId)), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("The manager's ID does not match when find a room", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-         */
     }
 
 

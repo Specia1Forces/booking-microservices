@@ -1,4 +1,4 @@
-package com.lilsf.hotelmanager.service;
+package com.lilsf.hotelmanager.service.unit;
 
 
 import com.lilsf.hotelmanager.models.Address;
@@ -9,6 +9,7 @@ import com.lilsf.hotelmanager.repositories.AddressRepository;
 import com.lilsf.hotelmanager.repositories.HotelManagerRepository;
 import com.lilsf.hotelmanager.repositories.HotelRepository;
 import com.lilsf.hotelmanager.repositories.UserRepository;
+import com.lilsf.hotelmanager.service.HotelsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
