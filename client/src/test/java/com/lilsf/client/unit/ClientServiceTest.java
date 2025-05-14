@@ -32,7 +32,6 @@ public class ClientServiceTest {
 
     @Test
     void testFindReservations_shouldReturnReservations_whenHReservationsHave() {
-        // Arrange
         int clientId = 1;
 
         Booking booking1 = Booking.builder()
