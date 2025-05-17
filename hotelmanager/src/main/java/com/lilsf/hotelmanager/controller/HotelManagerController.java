@@ -34,7 +34,7 @@ public class HotelManagerController {
 
     private final HotelsService hotelsService;
     private final RoomService roomService;
-
+    
     @Autowired
     public HotelManagerController(HotelsService hotelsService, RoomService roomService) {
         this.hotelsService = hotelsService;
