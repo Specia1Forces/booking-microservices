@@ -9,6 +9,7 @@ import com.lilsf.hotelmanager.repositories.AddressRepository;
 import com.lilsf.hotelmanager.repositories.HotelManagerRepository;
 import com.lilsf.hotelmanager.repositories.HotelRepository;
 import com.lilsf.hotelmanager.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class HotelsService {
     private final HotelRepository hotelRepository;
     private final HotelManagerRepository hotelManagerRepository;
@@ -35,16 +37,19 @@ public class HotelsService {
     }
 
     public Hotel findOne(int hotelManagerId, int id) {
+        log.info("Finding hotel with ID: {} for hotel manager with ID: {}", id, hotelManagerId);
         Optional<Hotel> foundHotel = hotelRepository.findHotelByIdAndHotelManager_Id(id, hotelManagerId);
         return foundHotel.orElse(null);
     }
 
     public List<Hotel> findAll(int hotelManagerId) {
+        log.info("Finding all hotels for hotel manager with ID: {}", hotelManagerId);
         return hotelRepository.findHotelByHotelManager_Id(hotelManagerId);
     }
 
     @Transactional
     public Hotel save(int hotelManagerId, Hotel hotel, Address address) {
+        log.info("Saving address: {}", address);
         addressRepository.save(address);
         Optional<HotelManager> hotelManager = hotelManagerRepository.findHotelManagerByUser_Id(hotelManagerId);
         hotel.setHotelManager(hotelManager.get());
@@ -55,12 +60,13 @@ public class HotelsService {
 
     @Transactional
     public void deleteById(int hotelManagerId, int id) {
+        log.info("Deleting hotel with ID: {} for hotel manager with ID: {}", id, hotelManagerId);
         hotelRepository.deleteHotelByIdAndHotelManager_Id(id, hotelManagerId);
     }
 
     @Transactional
     public Hotel update(int hotelManagerId, int id, Hotel updatedHotel, Address updatedAddress) {
-        //  проверка на владельца
+        log.info("Updating hotel with ID: {} for hotel manager with ID: {} with data: {}", id, hotelManagerId, updatedHotel);
         if (updatedHotel.getHotelManager().getId() == hotelManagerId) {
             // нужно добавить проверку на обновления номера, может не было такого объета
             // нужно установить setId для updtate
