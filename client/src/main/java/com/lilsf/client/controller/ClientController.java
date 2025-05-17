@@ -9,6 +9,7 @@ import com.lilsf.client.dto.BookingForClientDto;
 import com.lilsf.client.models.Booking;
 import com.lilsf.client.service.ClientService;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import static com.lilsf.client.controller.mapper.RoomForClientMapper.mapRoomToRo
 
 @Controller
 @RequestMapping("/api/client")
+@Slf4j
 public class ClientController {
     public final ClientService clientService;
 
@@ -38,26 +40,15 @@ public class ClientController {
 
 
     @GetMapping("/{clientId}/reservations")
-    /*
-    @Operation(summary = "Gets customer by ID", description = "Customer must exist")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved reservations",
-                    content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = BookingForClientDto.class)))),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Customer not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content =
-                    { @Content(mediaType = "application/json", schema =
-                    @Schema(implementation = ErrorResponse.class)) }) })
-
-
-     */
 
     public ResponseEntity<List<BookingForClientDto>> findReservations(@PathVariable int clientId) { //List<BookingForClientDto>
+        log.info("Received request to find reservations for client with ID: {}", clientId);
         List<BookingForClientDto> bookings = mapBookingToBookingForClientDto(clientService.findReservations(clientId));
         if (!bookings.isEmpty()) {
+            log.info("Found {} reservations for client with ID: {}", bookings.size(), clientId);
             return ResponseEntity.ok(bookings);
         } else {
+            log.info("No reservations found for client with ID: {}", clientId);
             return ResponseEntity.notFound().build();
         }
     }

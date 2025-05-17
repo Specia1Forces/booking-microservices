@@ -1,0 +1,30 @@
+# Java build artifacts
+target/
+build/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Maven/Gradle wrappers
+.mvn/
+.gradle/
+
+# Node/Frontend artifacts (if any React or Vue inside)
+node_modules/
+dist/

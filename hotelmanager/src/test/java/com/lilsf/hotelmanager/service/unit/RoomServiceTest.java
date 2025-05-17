@@ -38,13 +38,7 @@ class RoomServiceTest {
     private HotelManagerRepository hotelManagerRepository;
     @MockBean
     private UserRepository userRepository;
-    /*
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        roomService = new RoomService(hotelRepository, roomRepository, hotelManagerRepository, userRepository);
-    }
-     */
+
 
     @Test
     void testFindOneRoom_withId_shouldReturnEmpty() {
