@@ -1,0 +1,131 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: booking-db
+    environment:
+      POSTGRES_USER: booking
+      POSTGRES_PASSWORD: booking
+      POSTGRES_DB: booking
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - booking
+    restart: unless-stopped
+
+  configserver:
+    build:
+      context: ./configserver
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    networks:
+      - booking
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/booking
+      - SPRING_DATASOURCE_USERNAME=booking
+      - SPRING_DATASOURCE_PASSWORD=booking
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  discovery:
+    build:
+      context: ./discovery
+      dockerfile: Dockerfile
+    environment:
+      - spring.config.import=optional:configserver:http://configserver:8888
+    ports:
+      - "8761:8761"
+    networks:
+      - booking
+    depends_on:
+      configserver:
+        condition: service_healthy
+
+
+  authorization:
+    build:
+      context: ./authorization
+      dockerfile: Dockerfile
+    environment:
+      - spring.config.import=optional:configserver:http://configserver:8888
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - server.port=8081
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/booking
+      - SPRING_DATASOURCE_USERNAME=booking
+      - SPRING_DATASOURCE_PASSWORD=booking
+    ports:
+      - "8081:8081"
+    networks:
+      - booking
+    depends_on:
+      - discovery
+      - postgres
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      - spring.config.import=optional:configserver:http://configserver:8888
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/booking
+      - SPRING_DATASOURCE_USERNAME=booking
+      - SPRING_DATASOURCE_PASSWORD=booking
+    ports:
+      - "8070:8070"
+    networks:
+      - booking
+    depends_on:
+      - discovery
+      - configserver
+      - authorization
+      - postgres
+
+  hotelmanager:
+    build:
+      context: ./hotelmanager
+      dockerfile: Dockerfile
+    environment:
+      - spring.config.import=optional:configserver:http://configserver:8888
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/booking
+      - SPRING_DATASOURCE_USERNAME=booking
+      - SPRING_DATASOURCE_PASSWORD=booking
+    ports:
+      - "8090:8090"
+    networks:
+      - booking
+    depends_on:
+      - discovery
+      - configserver
+      - postgres
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    environment:
+      - spring.config.import=optional:configserver:http://configserver:8888
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+    ports:
+      - "8080:8080"
+    networks:
+      - booking
+    depends_on:
+      - discovery
+      - authorization
+      - client
+      - hotelmanager
+
+networks:
+  booking:
+
+volumes:
+  pgdata:
