@@ -24,14 +24,14 @@ public class HotelSearchService {
         this.roomRepository = roomRepository;
     }
 
-    public List<Hotel> findAvailableHotels(Date startDate, Date endDate) {
+    public List<Hotel> findAvailableHotels(Date startDate, Date endDate, String city) {
         // дописать по городу
         log.info("Finding available hotels between {} and {}", startDate, endDate);
-        return hotelRepository.findAvailableHotel(startDate, endDate);
+        return hotelRepository.findAvailableHotel(startDate, endDate,city);
     }
 
     public List<Room> getInformationHotels(int hotelId, Date startDate, Date endDate) {
         log.info("Getting information for rooms in hotel with ID: {} between {} and {}", hotelId, startDate, endDate);
-        return roomRepository.findAvailableRoom(startDate, endDate, hotelId);
+        return roomRepository.findAvailableRooms(startDate, endDate, hotelId);
     }
 }

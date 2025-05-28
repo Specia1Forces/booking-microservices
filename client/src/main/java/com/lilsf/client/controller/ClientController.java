@@ -18,6 +18,7 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.Map;
 import static com.lilsf.client.controller.mapper.BookingForClientMapper.mapBookingToBookingForClientDto;
 import static com.lilsf.client.controller.mapper.RoomForClientMapper.mapRoomToRoomForClientDto;
 
-@Controller
+@RestController
 @RequestMapping("/api/client")
 @Slf4j
 public class ClientController {

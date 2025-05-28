@@ -10,6 +10,7 @@ public class RoomForClientMapper {
 
     public static RoomForClientDto mapRoomToRoomForClientDto(Room model) {
         return RoomForClientDto.builder()
+                .clientId(model.getId())
                 .name(model.getName())
                 .description(model.getDescription())
                 .currentPrice(model.getCurrentPrice())

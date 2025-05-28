@@ -28,7 +28,7 @@ public class ClientServiceTest {
     @Autowired
     private ClientService clientService;
     @MockBean
-    BookingRepository bookingRepository;
+    private BookingRepository bookingRepository;
 
     @Test
     void testFindReservations_shouldReturnReservations_whenHReservationsHave() {

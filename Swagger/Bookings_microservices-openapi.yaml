@@ -6,35 +6,29 @@ info:
 servers:
   - url: "https://Bookings_microservices"
 paths:
-  /api/client/{clientId}/reservations:
-    get:
-      summary: "GET api/client/{clientId}/reservations"
-      operationId: "findReservations"
-      parameters:
-        - name: "clientId"
-          in: "path"
-          required: true
-          schema:
-            type: "integer"
-            format: "int32"
+  /api/booking/room:
+    post:
+      summary: "POST api/booking/room"
+      operationId: "reservationHotels"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/reservationHotelDto"
+        required: true
       responses:
         "200":
           description: "OK"
           content:
             '*/*':
               schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/BookingForClientDto"
+                type: "string"
 components:
   schemas:
-    BigDecimal:
-      type: "object"
-      properties: { }
-    BookingForClientDto:
+    reservationHotelDto:
       type: "object"
       properties:
-        id:
+        roomId:
           type: "integer"
           format: "int32"
         startDate:
@@ -43,25 +37,3 @@ components:
         endDate:
           type: "string"
           format: "date-time"
-        discountPercent:
-          $ref: "#/components/schemas/BigDecimal"
-        bookingStatus:
-          type: "string"
-          enum:
-            - "CONFIRMED"
-            - "CANCELLED"
-        totalPrice:
-          $ref: "#/components/schemas/BigDecimal"
-        hotel:
-          type: "string"
-        name:
-          type: "string"
-        description:
-          type: "string"
-        currentPrice:
-          $ref: "#/components/schemas/BigDecimal"
-        roomType:
-          type: "string"
-          enum:
-            - "SINGLE"
-            - "DOUBLE"

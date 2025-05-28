@@ -4,10 +4,8 @@ import com.lilsf.client.models.Hotel;
 import com.lilsf.client.models.Room;
 import com.lilsf.client.models.enums.CategoryType;
 import com.lilsf.client.models.enums.RoomType;
-import com.lilsf.client.repositories.BookingRepository;
 import com.lilsf.client.repositories.HotelRepository;
 import com.lilsf.client.repositories.RoomRepository;
-import com.lilsf.client.service.ClientService;
 import com.lilsf.client.service.HotelSearchService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,10 +58,11 @@ public class HotelSearchServiceTest {
         expectedHotels.add(hotel1);
         expectedHotels.add(hotel2);
 
-        when(hotelRepository.findAvailableHotel(startDate, endDate)).thenReturn(expectedHotels);
+        String city = "Anapa";
+        when(hotelRepository.findAvailableHotel(startDate, endDate, city)).thenReturn(expectedHotels);
 
 
-        List<Hotel> actualHotels = hotelSearchService.findAvailableHotels(startDate, endDate);
+        List<Hotel> actualHotels = hotelSearchService.findAvailableHotels(startDate, endDate, city);
 
 
         assertNotNull(actualHotels);
@@ -78,10 +77,11 @@ public class HotelSearchServiceTest {
 
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() + 86400000); // 1 день позже
-        when(hotelRepository.findAvailableHotel(startDate, endDate)).thenReturn(new ArrayList<>());
+        String city = "Anapa";
+        when(hotelRepository.findAvailableHotel(startDate, endDate, city)).thenReturn(new ArrayList<>());
 
 
-        List<Hotel> actualHotels = hotelSearchService.findAvailableHotels(startDate, endDate);
+        List<Hotel> actualHotels = hotelSearchService.findAvailableHotels(startDate, endDate, city);
 
 
         assertNotNull(actualHotels);
@@ -119,7 +119,7 @@ public class HotelSearchServiceTest {
         expectedRooms.add(room1);
         expectedRooms.add(room2);
 
-        when(roomRepository.findAvailableRoom(startDate, endDate, hotelId)).thenReturn(expectedRooms);
+        when(roomRepository.findAvailableRooms(startDate, endDate, hotelId)).thenReturn(expectedRooms);
 
 
         List<Room> actualRooms = hotelSearchService.getInformationHotels(hotelId, startDate, endDate);
@@ -137,7 +137,7 @@ public class HotelSearchServiceTest {
         int hotelId = 1;
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() + 86400000); //
-        when(roomRepository.findAvailableRoom(startDate, endDate, hotelId)).thenReturn(new ArrayList<>());
+        when(roomRepository.findAvailableRooms(startDate, endDate, hotelId)).thenReturn(new ArrayList<>());
 
 
         List<Room> actualRooms = hotelSearchService.getInformationHotels(hotelId, startDate, endDate);

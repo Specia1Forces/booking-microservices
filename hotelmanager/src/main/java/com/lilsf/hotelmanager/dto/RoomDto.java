@@ -1,14 +1,12 @@
 package com.lilsf.hotelmanager.dto;
 
 import com.lilsf.hotelmanager.models.enums.RoomType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

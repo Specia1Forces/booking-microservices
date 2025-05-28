@@ -2,15 +2,13 @@ package com.lilsf.client.dto;
 
 import com.lilsf.client.models.enums.BookingStatus;
 import com.lilsf.client.models.enums.RoomType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

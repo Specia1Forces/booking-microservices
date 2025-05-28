@@ -33,11 +33,9 @@ public class HotelSearchController {
     }
 
     @GetMapping("/hotels/available")
-    public ResponseEntity<List<HotelForClientDto>> findAvailableHotels(@RequestBody SearchHotelDto searchHotelDto) { // дописать
-
-        // дописать город
+    public ResponseEntity<List<HotelForClientDto>> findAvailableHotels(@RequestBody SearchHotelDto searchHotelDto) {
         log.info("Received request to find available hotels with search criteria: {}", searchHotelDto);
-        List<HotelForClientDto> availableHotels = mapHotelToHotelForClientsDto(hotelSearchService.findAvailableHotels(searchHotelDto.getStartDate(), searchHotelDto.getEndDate()));
+        List<HotelForClientDto> availableHotels = mapHotelToHotelForClientsDto(hotelSearchService.findAvailableHotels(searchHotelDto.getStartDate(), searchHotelDto.getEndDate(),searchHotelDto.getCity()));
         log.info("Found {} available hotels", availableHotels.size());
         return new ResponseEntity<>(availableHotels, HttpStatus.OK);
     }

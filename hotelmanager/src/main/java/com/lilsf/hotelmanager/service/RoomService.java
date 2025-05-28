@@ -12,7 +12,6 @@ import com.lilsf.hotelmanager.repositories.RoomRepository;
 import com.lilsf.hotelmanager.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,12 +104,14 @@ public class RoomService {
         // исправить нужно сперва найти старое значение
     }
 
-
+    /*
     public int getCurrentManagerId() {
         Optional<User> foundUsers = userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         return foundUsers(foundUsers);
 
     }
+
+     */
 
     private int foundUsers(Optional<User> foundUsers) {
         if (foundUsers.isEmpty()) {

@@ -1,12 +1,10 @@
 package com.lilsf.client.dto;
 
 import com.lilsf.client.models.enums.CategoryType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

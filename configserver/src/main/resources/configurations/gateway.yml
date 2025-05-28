@@ -17,6 +17,7 @@ spring:
           predicates:
             - Path=/api/client/**
             - Path=/api/search/**
+            - Path=/api/booking/room
         - id: hotelmanager
           uri: http://localhost:8090
           predicates:

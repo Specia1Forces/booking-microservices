@@ -6,11 +6,14 @@ import lombok.*;
 import java.math.BigDecimal;
 
 
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomForClientDto {
+    private int clientId;
+
     private String name;
 
     private String description;

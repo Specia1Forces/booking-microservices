@@ -12,9 +12,8 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchHotelDto {
-
-    private String city;
+public class reservationHotelDto {
+    private int roomId;
 
     private Date startDate;
 
