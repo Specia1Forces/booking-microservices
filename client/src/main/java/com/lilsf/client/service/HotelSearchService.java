@@ -27,7 +27,7 @@ public class HotelSearchService {
     public List<Hotel> findAvailableHotels(Date startDate, Date endDate, String city) {
         // дописать по городу
         log.info("Finding available hotels between {} and {}", startDate, endDate);
-        return hotelRepository.findAvailableHotel(startDate, endDate,city);
+        return hotelRepository.findAvailableHotel(city);
     }
 
     public List<Room> getInformationHotels(int hotelId, Date startDate, Date endDate) {

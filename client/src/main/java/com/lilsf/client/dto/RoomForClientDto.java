@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomForClientDto {
-    private int clientId;
+    private int roomId;
 
     private String name;
 

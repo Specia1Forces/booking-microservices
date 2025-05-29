@@ -2,7 +2,7 @@ eureka:
   client:
     register-with-eureka: false
 server:
-  port: 8222
+  port: 8080
 spring:
   application:
     name: gateway
@@ -13,12 +13,12 @@ spring:
           enabled: true
       routes:
         - id: client
-          uri: http://localhost:8070
+          uri: http://client:8070
           predicates:
             - Path=/api/client/**
             - Path=/api/search/**
             - Path=/api/booking/room
         - id: hotelmanager
-          uri: http://localhost:8090
+          uri: http://hotelmanager:8080
           predicates:
             - Path=/api/manager/**

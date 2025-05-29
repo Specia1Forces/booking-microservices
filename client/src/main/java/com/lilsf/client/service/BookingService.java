@@ -44,10 +44,10 @@ public class BookingService {
             throw new RuntimeException("The client or hotel room does not exist");
         }
 
-        if (roomRepository.findAvailableRoom(startDate, endDate, clientId).isPresent()) {
-            log.error("Reservation failed: The room is already booked. Room ID: {}", roomId);
-            throw new RuntimeException("The room is already booked");
-        }
+        // if (roomRepository.findAvailableRoom(startDate, endDate, clientId).isPresent()) {
+        //     log.error("Reservation failed: The room is already booked. Room ID: {}", roomId);
+        //     throw new RuntimeException("The room is already booked");
+        // }
 
         double roomRate = room.get().getCurrentPrice().doubleValue() * billForHotelRoom(startDate, endDate);
 

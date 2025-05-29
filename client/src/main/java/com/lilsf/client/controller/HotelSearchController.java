@@ -32,7 +32,7 @@ public class HotelSearchController {
         this.hotelSearchService = hotelSearchService;
     }
 
-    @GetMapping("/hotels/available")
+    @PostMapping("/hotels/available")
     public ResponseEntity<List<HotelForClientDto>> findAvailableHotels(@RequestBody SearchHotelDto searchHotelDto) {
         log.info("Received request to find available hotels with search criteria: {}", searchHotelDto);
         List<HotelForClientDto> availableHotels = mapHotelToHotelForClientsDto(hotelSearchService.findAvailableHotels(searchHotelDto.getStartDate(), searchHotelDto.getEndDate(),searchHotelDto.getCity()));
@@ -40,7 +40,7 @@ public class HotelSearchController {
         return new ResponseEntity<>(availableHotels, HttpStatus.OK);
     }
 
-    @GetMapping("/hotels/{hotelId}/information")
+    @PostMapping("/hotels/{hotelId}/information")
     public ResponseEntity<List<RoomForClientDto>> getInformationHotels(@PathVariable int hotelId, @RequestBody SearchRoomDto searchRoomDto) {
         log.info("Received request to get information for hotel with ID: {} with search criteria: {}", hotelId, searchRoomDto);
         List<RoomForClientDto> hotelInformation = mapRoomToRoomForClientDto(hotelSearchService.getInformationHotels(hotelId, searchRoomDto.getStartDate(), searchRoomDto.getEndDate()));
