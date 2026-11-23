@@ -44,7 +44,7 @@ public class BookingService {
             throw new RuntimeException("The client or hotel room does not exist");
         }
 
-        if (roomRepository.findAvailableRoom(startDate, endDate, clientId).isPresent()) {
+        if (roomRepository.findAvailableRoom(startDate, endDate, roomId).isEmpty()) {
             log.error("Reservation failed: The room is already booked. Room ID: {}", roomId);
             throw new RuntimeException("The room is already booked");
         }

@@ -26,8 +26,9 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query("SELECT DISTINCT h FROM Hotel h" +
             " JOIN h.address a" +
             " JOIN h.roomList r" +
-            " LEFT JOIN r.bookingList b WITH ((:curStartDate BETWEEN b.startDate AND b.endDate) OR (:curEndDate BETWEEN b.startDate AND b.endDate)) AND b.bookingStatus = 'CONFIRMED' " +
-            " LEFT JOIN r.unavailabilityList u WITH (:curStartDate  BETWEEN u.startDate AND u.endDate) OR (:curEndDate  BETWEEN u.startDate AND u.endDate)" +
+            " LEFT JOIN r.bookingList b ON b.startDate < :curEndDate AND :curStartDate < b.endDate" +
+            " AND b.bookingStatus = com.lilsf.client.models.enums.BookingStatus.CONFIRMED" +
+            " LEFT JOIN r.unavailabilityList u ON u.startDate < :curEndDate AND :curStartDate <= u.endDate" +
             " WHERE b.id IS NULL AND u.id IS NULL AND a.city =:city"
     )
     List<Hotel> findAvailableHotel(@Param("curStartDate") Date startDate, @Param("curEndDate") Date endDate, @Param("city") String city);
